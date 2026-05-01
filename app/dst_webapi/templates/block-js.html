@@ -1,0 +1,16 @@
+<script type="text/javascript">
+var DATA_USERS = JSON.parse('{{ dataUser | tojson }}');
+var MTO_INIT = JSON.parse('{{ metInfo | tojson }}');
+var PAGE_CTRL = JSON.parse('{{ pageCtrl | tojson }}');
+var ajaxURLprefix = PAGE_CTRL.urlPrefix
+</script>
+<!--  -->
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/webapi-date-range.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/webapi-multipoints.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/webapi-rectangle.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/webapi-polygons.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/webapi-geojson.js') }}"></script>
+<!--  -->
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/download-api-urls.js') }}"></script>
+<!--  -->
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/download-data.js') }}"></script>

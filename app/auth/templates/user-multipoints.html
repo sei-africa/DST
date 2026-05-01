@@ -1,0 +1,28 @@
+<div class="col-md-7 user-list-modal">
+    {{ umacros.user_files_table("multiple points files", "multipoints", "File") }}
+</div>
+<hr>
+<div class="user-inputs-info">
+    {% call umacros.user_files_input("Add new multiple points file", "multipoints", False) %}
+    <div>
+        <p>
+            The file containing the multiple points must be in CSV format (Comma-separated values). The data must have 3 columns and the first row must be a header.
+            <ul>
+                <li>The 1st column may be the name of the locations or ID of stations</li>
+                <li>The 2nd column must be the longitude</li>
+                <li>The 3rd column must be the latitude</li>
+            </ul>
+        </p>
+        <h5>Example</h5>
+        <pre>
+            name,longitude,latitude
+            location 1,29.822541,-2.545458
+            location 2,29.228385,-2.348324
+            location 3,30.539145,-1.840012
+            location 4,29.671826,-1.559724
+            location 5,29.319681,-1.70965
+            location 6,30.643484,-2.20497
+        </pre>
+    </div>
+    {% endcall %}
+</div>

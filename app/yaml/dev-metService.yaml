@@ -1,0 +1,17 @@
+## Meteo service info
+metServiceName: DCCMS
+metServiceLongname: Department of Climate Change and Meteorological Services
+pageTitle: DCCMS ENACTS
+metServiceURL: https://www.metmalawi.gov.mw/
+
+## put the images under app/static/images
+iconImage: dccms_favicon.png
+metLogo: dccms_logo.png
+
+## map lat/lon center
+mapCenterLON: 34.3024
+mapCenterLAT: -13.2455
+mapZoom: 6
+
+## timezone
+timeZone: Africa/Blantyre

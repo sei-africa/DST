@@ -1,0 +1,11 @@
+<div class="border border-secondary rounded-3 div-control">
+    <div>
+        <span class="title-label">Output format</span>
+        <select id="output-format" class="form-select">
+            {% for key, value in pageCtrl.output_format.items() %}
+            <option value="{{key}}" {% if (key==pageCtrl.output_format_sel) %} selected {% endif %}>{{value}}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

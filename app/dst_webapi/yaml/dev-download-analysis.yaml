@@ -1,0 +1,17 @@
+analysis:
+    anomaly: Anomalies
+    spi: Standardized Precipitation Index (SPI)
+analysis_sel: anomaly
+anomaly_type:
+    difference: Difference
+    percentage: Percentage of mean
+    standardized: Standardized anomaly
+spi_analysis_type:
+    time_series: Time series data
+    proba_exc: Probability of exceeding
+    proba_nexc: Probability of non exceeding
+spi_dist_function:
+    gamma: Gamma
+    pearson3: Pearson Type III
+    loglogistic: log-Logistic
+    zscore: Z-Score

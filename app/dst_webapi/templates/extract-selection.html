@@ -1,0 +1,14 @@
+<div class="border border-secondary rounded-3 div-control">
+    <div>
+        <span class="title-label">Geometry Extraction Support</span>
+        <select id="extract-support" class="form-select">
+            {% for key, value in pageCtrl.extraction_support.items() %}
+            {% if key in dataUser.extract %}
+            <option value="{{key}}">{{value}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div id="div-extract-support">
+    </div>
+</div>

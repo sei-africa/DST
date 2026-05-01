@@ -1,0 +1,86 @@
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('homepage') }}">
+                    <img class="meteo-logo" src="{{ url_for('static', filename='images/meteo_logo.png') }}">
+                </a>
+            </div>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('api_documentation') }}">API Documentation</a>
+                </li>
+                <!--  -->
+                {% if session.logged_in %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"> Download Data </a>
+                    <ul class="dropdown-menu">
+                        {% if session.data.access == 'all' %}
+                        <li><a class="dropdown-item" href="{{ url_for('webapi.download_raw') }}"> Download Raw Data </a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        {% endif %}
+                        {% if session.data.access in ['all', 'climatology', 'clim-analysis'] %}
+                        <li><a class="dropdown-item" href="{{ url_for('webapi.download_climatology') }}"> Download Climatology </a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        {% endif %}
+                        {% if session.data.access in ['all', 'analysis', 'clim-analysis'] %}
+                        <li><a class="dropdown-item" href="{{ url_for('webapi.download_analysis') }}"> Download Analysis </a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                {% if session.logged_in %}
+                <li>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ session.data.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% if session.data.role == 'admin' %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.users_management') }}">Users Management</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.user_account') }}">My Account</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <!-- <a class="dropdown-item" href="/logout">Logout</a> -->
+                                <a class="dropdown-item" href="{{ url_for('auth.logoutUser') }}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {% else %}
+                <li>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#loginModal"> Login </button>
+                    {% include 'user-login.html' %}
+                    {% if error_login %}
+                    <script>
+                    var loginModal = document.getElementById("loginModal");
+                    var bootModal = new bootstrap.Modal(loginModal);
+                    bootModal.show();
+                    </script>
+                    {% endif %}
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <!--  -->
+    <div class="div-flash-alert">
+        {% include 'flashes.html' %}
+    </div>
+</header>

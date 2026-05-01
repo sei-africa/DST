@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block title %} {{metInfo.metServiceLongname}} {% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/documentation.css') }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<style>
+    .documentation_body{
+        height: 90vh;
+    }
+    .documentation_toc{
+        height: 90vh;
+    }
+
+    .language-endpoint-def {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .endpoint-ex {
+        color: #dc3545;
+    }
+
+    .language-url{
+        white-space : pre-wrap !important;
+    }
+
+    table {
+        font-size:inherit;
+        font:100%;
+        margin:1em;
+        border-collapse: collapse;
+    }
+
+    table th, 
+    table td {
+        border: 1px solid #ddd;
+        padding:.2em 1em;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #f2f2f2;
+    }
+
+    th {
+      background-color: #000;
+      color: #fff;
+    }
+    h3 {
+        border: 2px solid #535353;
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        /*width: 50%;*/
+      }
+</style>
+{% endblock %}
+{% block content %}
+<div id="documentation" class="container-fluid">
+    <div class="row wrapper">
+        <div class="col-sm-4 d-felx overflow-auto documentation_toc">
+            {{ docToc | safe }}
+        </div>
+        <div class="col-sm-8 d-felx overflow-auto documentation_body">
+            {{ docBody | safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+var DATA_USERS = JSON.parse('{{ dataUser | tojson }}');
+var MTO_INIT = JSON.parse('{{ metInfo | tojson }}');
+var PAGE_CTRL = JSON.parse('{{ pageCtrl | tojson }}');
+var ajaxURLprefix = PAGE_CTRL.urlPrefix
+hljs.highlightAll();
+</script>
+{% endblock %}

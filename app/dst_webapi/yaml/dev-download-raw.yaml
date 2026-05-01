@@ -1,0 +1,16 @@
+dataset:
+    ALL: Analysis datasets (ALL)
+    MON: Monitoring datasets (MON)
+dataset_sel: ALL
+variable:
+    precip: Precipitation
+    tmax: Maximum Temperature
+    tmin: Minimum Temperature
+variable_sel: precip
+temporal_resolution:
+    daily: Daily
+    dekadal: Dekadal
+    monthly: Monthly
+    seasonal: Seasonal
+    annual: Annual
+temporal_resolution_sel: monthly

@@ -1,0 +1,6 @@
+output_format:
+    netCDF-Format: netCDF files
+    CSV-CDT-Format: CSV file (in CDT data format)
+    CSV-Column-Format: CSV files (in column data format Lat|Lon|Values)
+    JSON-Format: JSON format
+output_format_sel: CSV-CDT-Format

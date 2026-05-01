@@ -1,0 +1,43 @@
+{% macro user_files_table(titre, colname, type) %}
+<div id="divModal-{{ colname }}"></div>
+<div>
+    <p style="font-weight:bold;"> User {{ titre }} list</p>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col-sm-1">N°</th>
+                <th scope="col">{{ type }} name</th>
+                <th scope="col-sm-1">Delete</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider" id="user-table-{{ colname }}"></tbody>
+    </table>
+</div>
+{% endmacro %}
+<!--  -->
+{% macro user_files_input(titre, colname, multiple) %}
+<p style="font-weight:bold;"> {{ titre }} </p>
+<div class="container-fluid">
+    <form enctype="multipart/form-data">
+        <div class="row row-cols-auto">
+            <div class="col-md-5">
+                {% if multiple %}
+                <input id="uploadUserFile-{{ colname }}" type="file" class="form-control" multiple>
+                <div id="selectedUserFiles"></div>
+                {% else %}
+                <input id="uploadUserFile-{{ colname }}" type="file" class="form-control">
+                {% endif %}
+            </div>
+            <div class="col">
+                <input id="uploadUserBtn-{{ colname }}" type="button" class="btn btn-primary" value="Upload">
+                <progress id="uploadUserPb-{{ colname }}" style="display: none;"></progress>
+                <span id="uploadUserStatus-{{ colname }}"></span>
+            </div>
+        </div>
+    </form>
+</div>
+<hr class="upload-div-info">
+<div class="container-fluid">
+    {{ caller() }}
+</div>
+{% endmacro %}

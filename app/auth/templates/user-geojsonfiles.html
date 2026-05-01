@@ -1,0 +1,64 @@
+<div class="col-md-7 user-list-modal">
+    {{ umacros.user_files_table("GeoJSON files", "geojson", "File") }}
+</div>
+<hr>
+<div class="user-inputs-info">
+    {% call umacros.user_files_input("Add new GeoJSON file", "geojson", False) %}
+    <div>
+        <p>
+            The coordinate in the GeoJSON must be EPSG:4326 (WGS84). The geometry types should be <strong>Point</strong>, <strong>Polygon</strong> or <strong>MultiPolygon</strong>. You can have one or multiple geometry types in one file.
+        </p>
+        <p>The data structures are as follow </p>
+        <pre style="background-color: #eee;">
+{
+    "type": "FeatureCollection",
+    "features": [
+    {
+        "type": "Feature",
+        "geometry":
+        {
+            "type": "Point",
+            "coordinates": [35.3223, -15.38361]
+        },
+        "properties":
+        {
+            "type": "Point",
+            "name": "Ahi Private Clinic",
+            .......
+        }
+    },
+    {
+        "type": "Feature",
+        "geometry":
+        {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [34.8341, -15.2765],
+                    [34.835, -15.2762],
+
+                    .......
+
+                    [34.8327, -15.2769],
+                    [34.8341, -15.2765]
+                ]
+            ]
+        },
+        "properties":
+        {
+            "type": "Polygon",
+            "name": "Balaka-DHO",
+            .......
+        }
+    },
+    { 
+        .......... 
+    },
+
+    ..........
+    ]
+}
+        </pre>
+    </div>
+    {% endcall %}
+</div>

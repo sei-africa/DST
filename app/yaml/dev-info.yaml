@@ -1,0 +1,10 @@
+name: DST
+version: 1.0
+longname: ENACTS Data Sharing Tool
+description: REST API for sharing ENACTS datasets from National Meteorological and Hydrological Service (NMHS)
+service: DCCMS DST API
+owner: Department of Climate Change and Meteorological Services (DCCMS)
+contact_name: Rija F
+contact_email: "rija@dst.api"
+documentation: "http://127.0.0.1/dst/api_documentation"
+status: OK

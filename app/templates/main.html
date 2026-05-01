@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %} {{metInfo.metServiceLongname}} {% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center">
+    <div class="col-md enacts-box">
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="text-center">ENACTS Data Sharing Tool (DST)</h2>
+                <br>
+                <h5>This application allows users to download ENACTS data and derived climate information from {{metInfo.metServiceLongname}}</h5>
+            </div>
+            <div class="col-md-2 d-flex justify-content-end">
+                <img class="dst-logo" src="{{ url_for('static', filename='images/dst.png') }}">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container d-flex justify-content-center">
+    <div class="col-md enacts-box">
+        <div class="row">
+            <div class="col-md-8">
+                <p>The <strong>Data Sharing Tool (DST)</strong> is a secure and flexible platform developed to support National Meteorological and Hydrological Services (NMHS) in managing and sharing climate data with designated users. It is particularly valuable for institutions that generate high-quality climate information, such as ENACTS datasets, and wish to make selected data accessible to specific stakeholders while maintaining control over data use.</p>
+                <p>The DST operates by assigning each authorized user a unique, time-limited login credential (ID and password), granting access exclusively to the datasets that the NMHS has explicitly approved for sharing. This approach ensures that data access is both targeted and secure, enabling NMHS to tailor access permissions based on user roles, project needs, or institutional agreements.</p>
+                <p>By streamlining the process of data sharing while preserving data ownership and confidentiality, the DST empowers NMHS to better meet the growing demand for reliable climate data across sectors such as disaster risk management, agriculture, water resources, and public health. It strengthens collaboration between NMHS and key stakeholders, enhances transparency, and promotes the effective use of climate data for decision-making and early warning systems.</p>
+            </div>
+            <div class="col-md-4 d-flex justify-content-end">
+                <img src="{{ url_for('static', filename='images/enacts.jpg') }}" class="img-fluid img-thumbnail rounded" width="300" height="380">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+var DATA_USERS = JSON.parse('{{ dataUser | tojson }}');
+var MTO_INIT = JSON.parse('{{ metInfo | tojson }}');
+var PAGE_CTRL = JSON.parse('{{ pageCtrl | tojson }}');
+var ajaxURLprefix = PAGE_CTRL.urlPrefix
+</script>
+{% endblock %}

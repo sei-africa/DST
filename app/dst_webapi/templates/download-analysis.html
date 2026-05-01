@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %} {{metInfo.pageTitle}} {% endblock %}
+{% block head %}
+{{ super() }}
+{% include 'block-head.html' %}
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row wrapper">
+        <div class="d-md-flex">
+            <div class="col-sm-4 main-panel box-panel overflow-auto">
+                <div class="border border-secondary rounded-3 div-control">
+                    <span class="title-label">Analysis</span>
+                    <select id="analysis" class="form-select">
+                        {% for key, value in pageCtrl.analysis.items() %}
+                        <option value="{{key}}" {% if (key==pageCtrl.analysis_sel) %} selected {% endif %}>{{value}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="border border-secondary rounded-3 div-control analysis"></div>
+                <!--  -->
+                {% include 'extract-selection.html' %}
+                {% include 'output-selection.html' %}
+                <!--  -->
+                {% include 'apiurl-button.html' %}
+            </div>
+            <!--  -->
+            {% include 'download-tabs.html' %}
+        </div>
+    </div>
+    <!--  -->
+    {% include 'download-button.html' %}
+</div>
+{% endblock %}
+{% block javascript %}
+{% include 'block-js.html' %}
+<!--  -->
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/download-analysis.js') }}"></script>
+{% endblock %}

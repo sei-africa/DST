@@ -1,0 +1,18 @@
+<div class="col-md-7 user-list-modal">
+    {{ umacros.user_files_table("shapefiles", "shapefiles", "Layer") }}
+</div>
+<hr>
+<div class="user-inputs-info">
+    {% call umacros.user_files_input("Add new shapefile", "shapefiles", True) %}
+    <div>
+        <p>The shapefile must consist of the 4 files with file names extensions: <strong>.shp</strong>, <strong>.shx</strong>, <strong>.dbf</strong> and <strong>.prj</strong>. The shapefile's coordinate system must be EPSG:4326 (WGS84).</p>
+        <h5>Example</h5>
+        <pre>
+            Rwanda_watershed_lev02.shp
+            Rwanda_watershed_lev02.shx
+            Rwanda_watershed_lev02.dbf
+            Rwanda_watershed_lev02.prj
+        </pre>
+    </div>
+    {% endcall %}
+</div>

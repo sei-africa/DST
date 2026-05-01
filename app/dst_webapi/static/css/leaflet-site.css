@@ -1,0 +1,88 @@
+/*change font-size*/
+.leaflet-container {
+    /*font-size: 12px;*/
+    /*font-size: 0.75rem;*/
+    font-size: 1.2rem;
+}
+
+.leaflet-control-layers label {
+    /*font-size: 13px;*/
+    /*font-size: 1.08333em;*/
+
+    /*font-size: 13px; */
+    /*font-size: 1.2rem;*/
+}
+
+.leaflet-popup-content {
+    /*font-size: 13px;*/
+    /*font-size: 1.08333em;*/
+    font-size: 12px;
+    font-size: 1.2rem;
+}
+
+.leaflet-container .leaflet-control-attribution,
+.leaflet-container .leaflet-control-scale {
+    font-size: 11px;
+}
+
+.leaflet-touch .leaflet-control-zoom-in,
+.leaflet-touch .leaflet-control-zoom-out {
+    font-size: 22px;
+}
+
+.leaflet-attribution-flag {
+    display: none !important;
+}
+
+/* bindTooltip class */
+.tooltipbottom {
+    background: lightgreen;
+    border: 2px solid darkgreen;
+}
+
+.leaflet-tooltip-left.tooltipbottom::before {
+    border-left-color: darkgreen;
+}
+
+.leaflet-tooltip-right.tooltipbottom::before {
+    border-right-color: darkgreen;
+}
+
+/* leaflet L.control center position */
+.leaflet-vcenter {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-top: 10px;
+}
+
+.leaflet-vcenter .leaflet-control {
+    margin-bottom: 10px;
+}
+
+.leaflet-hcenter {
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* extended leaflet control layer*/
+
+.leaflet-control-layers-extended .leaflet-control-layers-toggle {
+    background-image: none;
+}
+
+/* map display attribute field name when on mouse hover */
+
+.leaflet-display-attr-name {
+    top: -7px;
+    left: -7px;
+    border-radius: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
+    background-color: #2262CC;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}

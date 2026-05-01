@@ -1,0 +1,8 @@
+extraction_support:
+    usermpoints: Multiple Points from User
+    mapmpoints: Multiple Points from Map
+    rectangle: Rectangle
+    userpolygons: Shapefiles from User
+    defaultpolygons: Default Polygons from Map
+    usergeojson: GeoJSON File
+    originalgrid: Get Original Files

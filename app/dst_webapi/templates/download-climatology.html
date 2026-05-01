@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% block title %} {{metInfo.pageTitle}} {% endblock %}
+{% block head %}
+{{ super() }}
+{% include 'block-head.html' %}
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row wrapper">
+        <div class="d-md-flex">
+            <div class="col-sm-4 main-panel box-panel overflow-auto">
+                <div class="border border-secondary rounded-3 div-control">
+                    <div>
+                        <span class="title-label">Select Dataset</span>
+                        <select id="dataset" class="form-select">
+                            {% for key, value in pageCtrl.dataset.items() %}
+                            <option value="{{key}}" {% if (key==pageCtrl.dataset_sel) %} selected {% endif %}>{{value}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <span class="title-label">Temporal Resolution</span>
+                        <select id="temporal-resolution" class="form-select">
+                            {% for key, value in pageCtrl.temporal_resolution.items() %}
+                            <option value="{{key}}" {% if (key==pageCtrl.temporal_resolution_sel) %} selected {% endif %}>{{value}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="div-climato-seas">
+                        <div class="row g-1 d-flex justify-content-end">
+                            <div class="col-auto d-flex align-items-center justify-content-end">
+                                Season Length:
+                            </div>
+                            <div class="col-auto">
+                                <select id="season-length" class="form-select input-down"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div-full-year">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="climato-full-year" checked>
+                                    <label class="form-check-label">Compute full year climatology</label>
+                                </div>
+                            </div>
+                            <div class="col-auto d-flex justify-content-start">
+                                <div id="select-full-year" style="display: none;">
+                                    <select id="climdate-full-year" class="form-select input-down"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="title-label">Select Variable</span>
+                        <select id="variable" class="form-select">
+                            {% for key, value in pageCtrl.variable.items() %}
+                            <option value="{{key}}" {% if (key==pageCtrl.variable_sel) %} selected {% endif %}>{{value}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="border border-secondary rounded-3 div-control">
+                    <div>
+                        <span class="title-label">Base Period </span>
+                        <div class="container">
+                            <div class="row g-1 div-climato-row">
+                                <div class="col-auto d-flex align-items-center justify-content-end">
+                                    Start Year:
+                                </div>
+                                <div class="col-auto" style="margin-right: 30px;">
+                                    <input type="text" id="start-year" class="form-control input-down" size="4" value="1991">
+                                </div>
+                                <div class="col-auto d-flex align-items-center justify-content-end">
+                                    End Year:
+                                </div>
+                                <div class="col-auto">
+                                    <input type="text" id="end-year" class="form-control input-down" size="4" value="2020">
+                                </div>
+                            </div>
+                            <div class="row g-1 div-climato-row">
+                                <div class="col-auto d-flex align-items-center justify-content-end">
+                                    Minimum number of years:
+                                </div>
+                                <div class="col-auto">
+                                    <input type="text" id="min-year" class="form-control input-down" size="3" value="30">
+                                </div>
+                            </div>
+                            <div id="div-days-window" class="row g-1  div-climato-row">
+                                <div class="col-auto d-flex align-items-center justify-content-end">
+                                    Centered days window:
+                                </div>
+                                <div class="col-auto">
+                                    <input type="text" id="days-window" class="form-control input-down" size="2" value="0">
+                                </div>
+                                <div class="col-auto d-flex align-items-center justify-content-end">
+                                    <span class="input-down">days (2 * win + 1)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="title-label"> Climatology Function</span>
+                        <div class="row g-1">
+                            <div class="col-auto">
+                                <select id="clim-function" class="form-select input-down">
+                                    {% for key, value in pageCtrl.clim_function.items() %}
+                                    <option value="{{key}}" {% if (key==pageCtrl.clim_function_sel) %} selected {% endif %}>{{value}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <div id="div-climato-perc" class="input-group">
+                                    <input type="text" id="clim-function-perc" class="form-control input-down float-end text-end" size="3" value="95">
+                                    <span class="input-down">th percentile</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                {% include 'extract-selection.html' %}
+                {% include 'output-selection.html' %}
+                <!--  -->
+                {% include 'apiurl-button.html' %}
+            </div>
+            <!--  -->
+            {% include 'download-tabs.html' %}
+        </div>
+    </div>
+    <!--  -->
+    {% include 'download-button.html' %}
+</div>
+{% endblock %}
+{% block javascript %}
+{% include 'block-js.html' %}
+<!--  -->
+<script type="text/javascript" src="{{ url_for('webapi.static', filename='js/download-climatology.js') }}"></script>
+{% endblock %}
