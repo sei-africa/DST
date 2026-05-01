@@ -1,0 +1,42 @@
+user_role:
+    user: User
+    admin: Administrator
+user_access:
+    all: All Data
+    climatology: Climatology Data
+    clim-analysis: Climatology and Analysis
+    analysis: Analysis Results
+user_form:
+    fullname: 
+        text: Full Name
+        type: text
+    institution:
+        text: Institution
+        type: text
+    email:
+        text: Email Address
+        type: text
+    username:
+        text: Username
+        type: text
+    password:
+        text: Password
+        type: password
+    confirm:
+        text: Repeat Password
+        type: password
+    role:
+        text: User Role
+        type: select
+    access:
+        text: Data Access
+        type: select
+    expiry:
+        text: Account Expiration
+        type: datepicker
+    extract:
+        text: Extraction Support
+        type: checkbox
+    analysis:
+        text: Analysis
+        type: checkbox
