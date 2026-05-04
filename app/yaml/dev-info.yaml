@@ -1,5 +1,5 @@
 name: DST
-version: 1.0
+version: 1.5
 longname: ENACTS Data Sharing Tool
 description: REST API for sharing ENACTS datasets from National Meteorological and Hydrological Service (NMHS)
 service: DCCMS DST API
