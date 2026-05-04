@@ -67,7 +67,8 @@ def api_info():
     info = load_yaml_file(info_file)
     info['environment'] = os.getenv('ENV', 'production')
     info['server_time'] = datetime.datetime.now(datetime.UTC).isoformat(timespec='seconds') + 'Z'
-    return response_download_json(info, 'dst-info')
+    # return response_download_json(info, 'dst-info')
+    return response_download_json(info)
 
 @app.route('/api_documentation')
 def api_documentation():
