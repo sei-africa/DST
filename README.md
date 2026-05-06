@@ -1,4 +1,4 @@
 # Data Sharing Tool
 
-![Data Sharing Tool](/DST/app/static/images/dst_logo.png)
+![Data Sharing Tool](/DST/tree/main/app/static/images/dst_logo.png)
 
