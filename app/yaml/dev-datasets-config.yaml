@@ -1,7 +1,11 @@
 datasets:
     ALL:
+        variables:
+            rainfall: precip
+            maximum_temperature: tmax
+            minimum_temperature: tmin
+            reference_evapotranspiration: et0
         daily:
-            compute: False
             netcdf:
                 precip: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/precip_daily
@@ -14,6 +18,7 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: False
                 tmax: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/tmax_daily
                     format: tmax_mrg_%Y%m%d_ALL.nc
@@ -25,6 +30,7 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: False
                 tmin: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/tmin_daily
                     format: tmin_mrg_%Y%m%d_ALL.nc
@@ -36,13 +42,31 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: False
+                et0: 
+                    name: Daily reference evapotranspiration 
+                    varid: et0
+                    lon: lon
+                    lat: lat
+                    time: time
+                    prec: float
+                    units: mm
+                    missval: -99
+                    compute: True
+                    data_type: et0
+                    function: et0_hargreaves_modified
+                    input_data: [tmax, tmin, precip]
+                    # input_data: [tmax, tmin]
+                    # function: et0_hargreaves_fao
+                    input: daily
+                    write_zarr: True
+                    dir_zarr: et0_daily
             zarr_dir: /home/enacts/ENACTS_DATA/DATA/ZARR/ALL
             chunks:
                 time: 1000
                 lat: 50
                 lon: 50
         dekadal:
-            compute: False
             netcdf:
                 precip: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/precip_dekad
@@ -55,6 +79,7 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: False
                 tmax: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/tmax_dekad
                     format: tmax_mrg_%Y%m%d_ALL.nc
@@ -66,6 +91,7 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: False
                 tmin: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/tmin_dekad
                     format: tmin_mrg_%Y%m%d_ALL.nc
@@ -77,13 +103,13 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: False
             zarr_dir: /home/enacts/ENACTS_DATA/DATA/ZARR/ALL
             chunks:
                 time: 1000
                 lat: 50
                 lon: 50
         monthly:
-            compute: True
             netcdf:
                 precip: 
                     name: Monthly rainfall
@@ -94,6 +120,7 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: True
                     function: sum
                     input: dekadal
                     minfrac: 1
@@ -106,6 +133,7 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: True
                     function: mean
                     input: dekadal
                     minfrac: 1
@@ -118,11 +146,11 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: True
                     function: mean
                     input: dekadal
                     minfrac: 1
         seasonal:
-            compute: True
             netcdf:
                 precip: 
                     name: Seasonal rainfall
@@ -133,6 +161,7 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: True
                     function: sum
                     input: dekadal
                     minfrac: 1
@@ -145,6 +174,7 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: True
                     function: mean
                     input: dekadal
                     minfrac: 1
@@ -157,11 +187,11 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: True
                     function: mean
                     input: dekadal
                     minfrac: 1
         annual:
-            compute: True
             netcdf:
                 precip: 
                     name: Annual rainfall
@@ -172,6 +202,7 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: True
                     function: sum
                     input: dekadal
                     minfrac: 1
@@ -184,6 +215,7 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: True
                     function: mean
                     input: dekadal
                     minfrac: 1
@@ -196,12 +228,14 @@ datasets:
                     prec: float
                     units: °C
                     missval: -99
+                    compute: True
                     function: mean
                     input: dekadal
                     minfrac: 1
     MON:
+        variables:
+            rainfall: precip
         daily:
-            compute: False
             netcdf:
                 precip: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/ALL/precip_daily
@@ -214,13 +248,13 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: False
             zarr_dir: /home/enacts/ENACTS_DATA/DATA/ZARR/MON
             chunks:
                 time: 1000
                 lat: 50
                 lon: 50
         dekadal:
-            compute: False
             netcdf:
                 precip: 
                     dir: /home/enacts/ENACTS_DATA/DATA/NETCDF/MON/precip_dekad
@@ -233,13 +267,13 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: False
             zarr_dir: /home/enacts/ENACTS_DATA/DATA/ZARR/MON
             chunks:
                 time: 1000
                 lat: 50
                 lon: 50
         monthly:
-            compute: True
             netcdf:
                 precip: 
                     name: Monthly rainfall
@@ -250,11 +284,11 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: True
                     function: sum
                     input: dekadal
                     minfrac: 1
         seasonal:
-            compute: True
             netcdf:
                 precip: 
                     name: Seasonal rainfall
@@ -265,11 +299,11 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: True
                     function: sum
                     input: dekadal
                     minfrac: 1
         annual:
-            compute: True
             netcdf:
                 precip: 
                     name: Annual rainfall
@@ -280,6 +314,7 @@ datasets:
                     prec: float
                     units: mm
                     missval: -99
+                    compute: True
                     function: sum
                     input: dekadal
                     minfrac: 1
