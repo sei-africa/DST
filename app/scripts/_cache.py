@@ -38,3 +38,11 @@ def hash_pamars_anom(params):
                  'spatialAvg']
     pars = {k: str(v) for k, v in params.items() if k in pars_anom}
     return _hash_params(pars)
+
+def hash_distr_pamars_spei(params):
+    pars_keys = [
+         'analysis', 'distribution', 'timeScale',
+         'dataset', 'temporalRes', 'variable'
+    ]
+    pars = {k: str(v) for k, v in params.items() if k in pars_keys}
+    return _hash_params(pars)
