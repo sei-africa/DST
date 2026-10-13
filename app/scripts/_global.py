@@ -14,12 +14,14 @@ if not os.path.exists(GLOBAL_CONFIG['app_cache']):
 GLOBAL_CONFIG['users_data'] = os.path.join(config.DST_DATA_DIR, 'users_data')
 if not os.path.exists(GLOBAL_CONFIG['users_data']):
     os.makedirs(GLOBAL_CONFIG['users_data'])
-GLOBAL_CONFIG['shp_dir'] = os.path.join(config.DST_DATA_DIR, 'shp')
-if not os.path.exists(GLOBAL_CONFIG['shp_dir']):
-    os.makedirs(GLOBAL_CONFIG['shp_dir'])
 
 met_file = os.path.join(app_dir, 'yaml', 'metService.yaml')
 GLOBAL_CONFIG['metInfo'] = load_yaml_file(met_file)
 
 config_data_file = os.path.join(app_dir, 'yaml', 'datasets-config.yaml')
 GLOBAL_CONFIG.update(load_yaml_file(config_data_file))
+
+# GLOBAL_CONFIG['shp_dir'] = os.path.join(config.DST_DATA_DIR, 'shp')
+GLOBAL_CONFIG['shp_dir'] = GLOBAL_CONFIG['geom_layers']['shp_dir']
+if not os.path.exists(GLOBAL_CONFIG['shp_dir']):
+    os.makedirs(GLOBAL_CONFIG['shp_dir'])

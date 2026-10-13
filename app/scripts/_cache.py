@@ -46,3 +46,17 @@ def hash_distr_pamars_spei(params):
     ]
     pars = {k: str(v) for k, v in params.items() if k in pars_keys}
     return _hash_params(pars)
+
+def hash_pamars_spei(params):
+    pars_keys = [
+        'analysis', 'distribution', 'timeScale', 'timeRes', 'dataset',
+        'temporalRes', 'variable', 'Date', 'startDate', 'endDate',
+        'Year', 'seasStart', 'seasLength',
+        'geomExtract', 'pointsSource', 'pointsFile', 'pointsList',
+        'padLon', 'padLat', 'minLon', 'maxLon', 'minLat', 'maxLat',
+        'shpSource', 'shpFile', 'shpField', 'Poly', 'allPolygons',
+        'geojsonSource', 'geojsonFile', 'geojsonData',
+        'geojsonField', 'spatialAvg', 'minFrac'
+    ]
+    pars = {k: str(v) for k, v in params.items() if k in pars_keys}
+    return _hash_params(pars)
