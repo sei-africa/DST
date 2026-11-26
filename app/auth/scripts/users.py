@@ -5,6 +5,18 @@ from ._hash import hash_password
 from datetime import datetime as dt
 from app.scripts._global import GLOBAL_CONFIG
 
+VALID_USER_ROLES = {'admin', 'user', 'datau'}
+
+def _normalizeUserPermissions(user):
+    role = user.get('role')
+    if role not in VALID_USER_ROLES:
+        raise ValueError(f'Invalid user role: {role}')
+    if role == 'datau':
+        user['access'] = 'none'
+        user['extract'] = []
+        user['analysis'] = []
+    return user
+
 def _splitUserDataList(str_value):
         tmp = str_value.split(';')
         return [u for u in tmp if u != '']
@@ -15,6 +27,7 @@ def _formatUserDataReq(user_data):
     user_data[0]['extract'] = _splitUserDataList(extract)
     analysis = user_data[0]['analysis']
     user_data[0]['analysis'] = _splitUserDataList(analysis)
+    _normalizeUserPermissions(user_data[0])
     return user_data
 
 def _getUserData(username):
@@ -59,11 +72,12 @@ def getAllUsersList():
                 else:
                     val = v
                 tmp[k] = val
-        user_out += [tmp]
+        user_out += [_normalizeUserPermissions(tmp)]
 
     return user_out
 
 def addUser(dataUser):
+    _normalizeUserPermissions(dataUser)
     if sql_usernameExist(dataUser['username'], 'users_table'):
         msg = f"Username: {dataUser['username']} already exists"
         return {'status': -1, 'message': msg, 'code': 'error'}
@@ -78,6 +92,7 @@ def addUser(dataUser):
     return {'status': 0, 'message': msg, 'user': dataUser, 'code': 'success'}
 
 def editUser(dataUser):
+    _normalizeUserPermissions(dataUser)
     dataUser0 = _getUserDataUID(dataUser['uid'])
     if dataUser['username'] != dataUser0['username']:
         if sql_usernameExist(dataUser['username'], 'users_table'):

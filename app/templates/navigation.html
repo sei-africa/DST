@@ -11,7 +11,7 @@
                     <a class="nav-link" href="{{ url_for('api_documentation') }}">API Documentation</a>
                 </li>
                 <!--  -->
-                {% if session.logged_in %}
+                {% if session.logged_in and session.data.role != 'datau' %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"> Download Data </a>
                     <ul class="dropdown-menu">
@@ -50,6 +50,16 @@
                                 <hr class="dropdown-divider">
                             </li>
                             {% endif %}
+                            <!--  -->
+                            {% if session.data.role in ['admin', 'datau'] %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.upload_station') }}">Upload Manual Observation data</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% endif %}
+                            <!--  -->
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('auth.user_account') }}">My Account</a>
                             </li>

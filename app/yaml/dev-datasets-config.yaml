@@ -517,7 +517,12 @@ datasets:
                     function: mean
                     input: dekadal
                     minfrac: 1
+
 climatology:
     zarr_dir: /home/enacts/ENACTS_DATA/DATA/ZARR/CLIM
+
 geom_layers:
     shp_dir: /home/enacts/SHP
+
+stations_data:
+    daily_dir: /home/enacts/STATIONS/DAILY

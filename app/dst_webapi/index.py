@@ -117,6 +117,7 @@ def download_raw():
                            metInfo = GLOBAL_CONFIG['metInfo'])
 
 @dst_webapi.route('/download_climatology')
+@login_required
 def download_climatology():
     page_contorl = page_control_climatology()
     return render_template('download-climatology.html',
@@ -125,6 +126,7 @@ def download_climatology():
                            metInfo = GLOBAL_CONFIG['metInfo'])
 
 @dst_webapi.route('/download_analysis')
+@login_required
 def download_analysis():
     page_contorl = page_control_analysis()
     return render_template('download-analysis.html',

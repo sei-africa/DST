@@ -1,0 +1,26 @@
+navigation_label: Station observation upload types
+upload_manual_observations: Upload manual observation data
+choose_file: Choose one CSV file
+upload_button: Upload
+chosen_file: Selected file
+uploaded_file: Uploaded file
+description: The file must contain station observations in CDT (Climate Data Tools) station data format.
+filename_format: 'Required filename format: <variable>_<start date>_<end date>.csv'
+allowed_variables_title: Allowed variables
+allowed_variables:
+    - precip
+    - tmax
+    - tmin
+    - tmean
+    - rhmin
+    - rhmax
+    - rhmean
+date_explanation: 'Start and end dates must use YYYYMMDD format and the start date must not be later than the end date. Example: precip_20261201_20261210.csv'
+messages:
+    no_file: Select a CSV file before uploading.
+    invalid_filename: The filename does not match the required variable_YYYYMMDD_YYYYMMDD.csv format.
+    invalid_dates: The filename contains an invalid date or the start date is later than the end date.
+    invalid_cdt_format: The file content is not a valid CDT station data format.
+    date_range_mismatch: The first and last dates in the file do not match the start and end dates in the filename.
+    upload_success: The station observation file was uploaded successfully.
+    upload_failed: The station observation file could not be saved.

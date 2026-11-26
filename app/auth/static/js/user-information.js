@@ -8,6 +8,9 @@ function userAccount(dataUser, pageCtrl) {
     var keysText = ['username', 'email', 'fullname',
         'institution', 'role', 'access', 'expiry'
     ];
+    if (dataUser.role === 'datau') {
+        keysText = ['username', 'email', 'fullname', 'institution', 'role', 'expiry'];
+    }
     for (var key of keysText) {
         var row = $('<tr>');
         var label = pageCtrl.user_form[key].text;
@@ -20,18 +23,20 @@ function userAccount(dataUser, pageCtrl) {
         table.append(row);
     }
 
-    var row = $('<tr>');
-    var label = pageCtrl.user_form['extract'].text;
-    $('<td>').text(label).css('font-weight', 'bold').appendTo(row);
-    var tbL = $('<td>').appendTo(row);
-    var ul = $('<ul>').appendTo(tbL).css('list-style-type', 'square');
-    for (var key of dataUser['extract']) {
-        $('<li>').appendTo(ul)
-            .html(pageCtrl.extraction_support[key]);
+    if (dataUser.role !== 'datau') {
+        var row = $('<tr>');
+        var label = pageCtrl.user_form['extract'].text;
+        $('<td>').text(label).css('font-weight', 'bold').appendTo(row);
+        var tbL = $('<td>').appendTo(row);
+        var ul = $('<ul>').appendTo(tbL).css('list-style-type', 'square');
+        for (var key of dataUser['extract']) {
+            $('<li>').appendTo(ul)
+                .html(pageCtrl.extraction_support[key]);
+        }
+        table.append(row);
     }
-    table.append(row);
 
-    if (dataUser['analysis'].length > 0) {
+    if (dataUser.role !== 'datau' && dataUser['analysis'].length > 0) {
         var row = $('<tr>');
         var label = pageCtrl.user_form['analysis'].text;
         $('<td>').text(label).css('font-weight', 'bold').appendTo(row);
@@ -44,20 +49,22 @@ function userAccount(dataUser, pageCtrl) {
         table.append(row);
     }
 
-    var row = $('<tr>');
-    $('<td>').text("API key").css('font-weight', 'bold').appendTo(row);
-    $('<td>').attr('id', 'api-key').text(dataUser.api_key).appendTo(row);
+    if (dataUser.role !== 'datau') {
+        var row = $('<tr>');
+        $('<td>').text("API key").css('font-weight', 'bold').appendTo(row);
+        $('<td>').attr('id', 'api-key').text(dataUser.api_key).appendTo(row);
 
-    var td_api = $('<td>').appendTo(row);
-    $("<button>", {
-        type: 'button',
-        'class': 'btn btn-primary',
-        text: 'Generate new API key',
-        click: () => {
-            generate_api_key(dataUser.username);
-        }
-    }).appendTo(td_api);
-    table.append(row);
+        var td_api = $('<td>').appendTo(row);
+        $("<button>", {
+            type: 'button',
+            'class': 'btn btn-primary',
+            text: 'Generate new API key',
+            click: () => {
+                generate_api_key(dataUser.username);
+            }
+        }).appendTo(td_api);
+        table.append(row);
+    }
 
     divUser.append(table);
 

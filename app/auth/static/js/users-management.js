@@ -89,7 +89,9 @@ function userListTable(data, date, pageCtrl) {
         for (var kk of keys) {
             var txt;
             var vv = data[i][kk];
-            if (kk === 'extract') {
+            if (data[i].role === 'datau' && ['access', 'extract', 'analysis'].includes(kk)) {
+                txt = '&mdash;';
+            } else if (kk === 'extract') {
                 var extract = pageCtrl.extraction_support;
                 var k_ext = Object.keys(extract);
                 if (data[i].role === 'admin') {
@@ -380,8 +382,21 @@ function setUserForm(divParent, pageCtrl, dataUser) {
             $('label[for="' + divL + 'expiry"]').hide();
             $(divP + 'expiry').hide();
             $('#' + divParent + ' .register-user-chekbox').hide();
+        } else if (role === 'datau') {
+            $('label[for="' + divL + 'access"]').hide();
+            $(divP + 'access').hide();
+            $(divP + 'expiry').val(dataUser.expiry);
+            $('label[for="' + divL + 'expiry"]').show();
+            $(divP + 'expiry').show();
+            $('#' + divParent + ' .register-user-chekbox').hide();
+            for (var item of ['extraction_support', 'analysis']) {
+                for (var kk in pageCtrl[item]) {
+                    $(divP + kk).prop('checked', false);
+                }
+            }
         } else {
-            $(divP + 'access').val(dataUser.access);
+            var access = dataUser.access in pageCtrl.user_access ? dataUser.access : 'climatology';
+            $(divP + 'access').val(access);
             $('label[for="' + divL + 'access"]').show();
             $(divP + 'access').show();
             $(divP + 'expiry').val(dataUser.expiry);
@@ -400,6 +415,12 @@ function setUserForm(divParent, pageCtrl, dataUser) {
     $(divP + 'role').trigger('change');
     // 
     $(divP + 'access').on('change', function() {
+        var role = $(divP + 'role option:selected').val();
+        if (role === 'datau') {
+            $(divP + 'div-extraction_support').hide();
+            $(divP + 'div-analysis').hide();
+            return;
+        }
         var access = $(divP + 'access option:selected').val();
         if (access === 'climatology') {
             for (var kk in pageCtrl.analysis) {
@@ -449,7 +470,8 @@ function resetUserForm(divParent, pageCtrl, dataUser) {
     for (var kk in pageCtrl.analysis) {
         $(divP + kk).prop('checked', false);
     }
-    $(divP + 'div-analysis').hide();
+    $(divP + 'role').trigger('change');
+    $(divP + 'access').trigger('change');
 }
 
 function dispMsgUserForm(parent, text) {
@@ -596,6 +618,12 @@ function getDataUserForm(divParent, pageCtrl, userID) {
     var analysis = analysis_keys.filter(x => $(divP + 'div-analysis ' + divP + x).is(':checked'));
     dataUser.analysis = analysis;
 
+    if (dataUser.role === 'datau') {
+        dataUser.access = 'none';
+        dataUser.extract = [];
+        dataUser.analysis = [];
+    }
+
     return dataUser;
 }
 
@@ -642,7 +670,8 @@ function displayUserReply(dataUser, pageCtrl) {
     $('<hr>').appendTo(divReply);
     var divTmp = $('<div>').appendTo(divReply);
     var ul = $('<ul>').addClass('list-group').appendTo(divTmp);
-    for (var key of ['role', 'access', 'expiry']) {
+    var permissionKeys = dataUser.role === 'datau' ? ['role', 'expiry'] : ['role', 'access', 'expiry'];
+    for (var key of permissionKeys) {
         if (key === 'role') {
             var valRole = pageCtrl.user_role[dataUser[key]];
         } else if (key === 'access') {
@@ -655,16 +684,18 @@ function displayUserReply(dataUser, pageCtrl) {
                 ':</strong> ' + valRole);
     }
     // 
-    $('<hr>').appendTo(divReply);
-    var divTmp = $('<div>').appendTo(divReply);
-    $('<p>').appendTo(divTmp)
-        .html('<strong>' + pageCtrl.user_form['extract'].text +
-            ':</strong>');
-    var ul = $('<ul>').appendTo(divTmp)
-        .css('list-style-type', 'square');
-    for (var key of dataUser['extract']) {
-        $('<li>').appendTo(ul)
-            .html(pageCtrl.extraction_support[key]);
+    if (dataUser.role !== 'datau') {
+        $('<hr>').appendTo(divReply);
+        var divTmp = $('<div>').appendTo(divReply);
+        $('<p>').appendTo(divTmp)
+            .html('<strong>' + pageCtrl.user_form['extract'].text +
+                ':</strong>');
+        var ul = $('<ul>').appendTo(divTmp)
+            .css('list-style-type', 'square');
+        for (var key of dataUser['extract']) {
+            $('<li>').appendTo(ul)
+                .html(pageCtrl.extraction_support[key]);
+        }
     }
     // 
     if (dataUser['analysis'].length > 0) {

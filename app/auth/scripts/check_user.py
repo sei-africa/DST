@@ -51,6 +51,9 @@ def _checkDataAccess(user_data, download_type):
     msg = 'You do not have the necessary permissions to access this dataset'
     out_no = {'status': -1, 'message': msg, 'code': 401}
 
+    if user_data.get('role') == 'datau':
+        return out_no
+
     if download_type == 'rawdata':
         if user_data['access'] != 'all':
             return out_no

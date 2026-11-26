@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, session
+from flask import Blueprint, render_template, request, flash, redirect, session, url_for
 from flask import current_app as app
 import json
 from functools import wraps
@@ -16,24 +16,47 @@ auth = Blueprint(
     static_url_path = '/static/auth'
 )
 
+DATA_UPLOAD_ALLOWED_ENDPOINTS = {
+    'auth.upload_station',
+    'auth.upload_station_data',
+    'auth.user_account',
+    'auth.change_password',
+    'auth.logoutUser'
+}
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'logged_in' in session:
+        if session.get('logged_in') is True and session.get('data'):
+            if (session['data'].get('role') == 'datau'
+                    and request.endpoint not in DATA_UPLOAD_ALLOWED_ENDPOINTS):
+                flash('Data Upload users may only upload station data.', 'warning')
+                return redirect(url_for('auth.upload_station'))
             return f(*args, **kwargs)
-        else:
-            flash('You need to login first', 'warning')
-            dataUser = {'uid': -1}
-            page_contorl = page_control_urlprefix()
-            return render_template('main.html',
-                                   error_login = True,
-                                   dataUser = dataUser,
-                                   pageCtrl = page_contorl,
-                                   metInfo = GLOBAL_CONFIG['metInfo'])
+
+        flash('You need to login first', 'warning')
+        dataUser = {'uid': -1}
+        page_contorl = page_control_urlprefix()
+        return render_template('main.html',
+                               error_login = True,
+                               dataUser = dataUser,
+                               pageCtrl = page_contorl,
+                               metInfo = GLOBAL_CONFIG['metInfo'])
     return wrap
 
+def roles_required(*allowed_roles):
+    def decorator(f):
+        @wraps(f)
+        def role_wrap(*args, **kwargs):
+            if session['data'].get('role') not in allowed_roles:
+                flash('You do not have permission to access this page.', 'warning')
+                return redirect(url_for('homepage'))
+            return f(*args, **kwargs)
+        return login_required(role_wrap)
+    return decorator
+
 @auth.route('/users_management')
-@login_required
+@roles_required('admin')
 def users_management():
     date = dt.today()
     date = date + timedelta(days=1)
@@ -58,7 +81,7 @@ def users_management():
                            pageCtrl = page_contorl)
 
 @auth.route('/createUser', methods=['POST'])
-@login_required
+@roles_required('admin')
 def createUser():
     dataUser = request.get_json()
     try:
@@ -72,7 +95,7 @@ def createUser():
     return json.dumps(out)
 
 @auth.route('/deleteUser', methods=['POST'])
-@login_required
+@roles_required('admin')
 def deleteUser():
     data = request.get_json()
     try:
@@ -82,7 +105,7 @@ def deleteUser():
         return json.dumps({'message': str(e), 'code': 'error'})
 
 @auth.route('/getUserList', methods = ['POST'])
-@login_required
+@roles_required('admin')
 def getUserList():
     try:
         out = getAllUsersList()
@@ -93,7 +116,7 @@ def getUserList():
         return json.dumps({'status': -1, 'message': str(e)})
 
 @auth.route('/getUserInfo')
-@login_required
+@roles_required('admin')
 def getUserInfo():
     username = request.args.get('username')
     try:
@@ -137,6 +160,8 @@ def loginUser():
                 'uid': dataUser['uid'],
                 'api_key': dataUser['api_key']
             }
+            if dataUser['role'] == 'datau':
+                return redirect(url_for('auth.upload_station'))
             return render_template('main.html',
                                    error_login = False,
                                    dataUser = dataUser,
@@ -192,6 +217,7 @@ def new_api_key():
 @login_required
 def change_password():
     user = request.get_json()
+    user['username'] = session['data']['username']
     pyobj = changePassword(user)
     return json.dumps(pyobj)
 
@@ -230,4 +256,22 @@ def delete_user_files():
     pyobj = deleteUserSavedFile(username, userfile, colname, shp)
     return json.dumps(pyobj)
 
+@auth.route('/upload_station')
+@roles_required('admin', 'datau')
+def upload_station():
+    username = session['data']['username']
+    dataUser = getUserData(username)[0]
+    page_contorl = page_control_upload_station()
 
+    return render_template('upload-station.html',
+                           dataUser = dataUser,
+                           pageCtrl = page_contorl,
+                           metInfo = GLOBAL_CONFIG['metInfo'])
+
+@auth.route('/upload_station_data', methods=['POST'])
+@roles_required('admin', 'datau')
+def upload_station_data():
+    result = saveStationObservationFile(request.files.get('file'))
+    message_key = result.pop('message_key')
+    result['message'] = page_control_upload_station()['messages'][message_key]
+    return json.dumps(result)

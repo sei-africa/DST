@@ -21,6 +21,13 @@ def page_control_urlprefix():
     page_contorl = {'urlPrefix': config.URL_PREFIX}
     return page_contorl
 
+def page_control_upload_station():
+    dir_app = GLOBAL_CONFIG['app_dir']
+    yaml_file = os.path.join(dir_app, 'auth', 'yaml', 'upload-station.yaml')
+    page_control = load_yaml_file(yaml_file)
+    page_control['urlPrefix'] = config.URL_PREFIX
+    return page_control
+
 def _get_admin_datauser():
     admin = {}
     admin['fullname'] = 'DST Administrator'

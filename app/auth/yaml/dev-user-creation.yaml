@@ -1,6 +1,7 @@
 user_role:
     user: User
     admin: Administrator
+    datau: Data Upload
 user_access:
     all: All Data
     climatology: Climatology Data
