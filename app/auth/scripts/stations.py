@@ -67,6 +67,17 @@ def _validate_cdt_station_data(upload):
     if column_count < 2 or any(len(row) != column_count for row in rows):
         return 'invalid_cdt_format'
 
+    metadata_row_count = 0
+    for row in rows:
+        if re.fullmatch(r'\d+', row[0]) is not None:
+            break
+        if not row[0]:
+            return 'invalid_cdt_format'
+        metadata_row_count += 1
+
+    if metadata_row_count not in (3, 4) or metadata_row_count >= len(rows):
+        return 'invalid_cdt_format'
+
     station_ids = rows[0][1:]
     if any(not station_id for station_id in station_ids):
         return 'invalid_cdt_format'
@@ -78,8 +89,12 @@ def _validate_cdt_station_data(upload):
     if not all(_is_number(value) for value in rows[2][1:]):
         return 'invalid_cdt_format'
 
+    if metadata_row_count == 4:
+        if not all(_is_number(value) for value in rows[3][1:]):
+            return 'invalid_cdt_format'
+
     dates = []
-    for row in rows[3:]:
+    for row in rows[metadata_row_count:]:
         if re.fullmatch(r'\d{8}', row[0]) is None:
             return 'invalid_cdt_format'
         try:
